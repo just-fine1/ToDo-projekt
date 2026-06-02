@@ -1,7 +1,8 @@
 import AuthView from '../views/AUTH.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../views/Dashboard.vue'
-import TodoView from '../views/Todo.vue'
+import SignupView from '../views/Signup.vue'
+import LoginView from '../views/Login.vue'
 
 const routes = [
     {
@@ -15,13 +16,12 @@ const routes = [
         component: DashboardView
     },
     {
-
-        path: '/todo',
-        name: 'todo',
-        component: TodoView
-
-  }
-    
+        path: '/signup',
+        component: SignupView
+    },
+    { path: '/login',
+    component: LoginView },
+  
 ]
 
 const router = createRouter({
