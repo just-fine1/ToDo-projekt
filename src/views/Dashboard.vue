@@ -114,7 +114,7 @@
 
             <v-checkbox
 
-              v-model="task.completed"
+              :model-value="task.completed"
 
               @change="toggleTask(task)"
 
@@ -161,105 +161,100 @@
   </v-container>
 
 </template>
-
 <script setup>
 
-import { ref, computed } from 'vue'
-import { supabase } from '../lib/supabase'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted } from "vue";
 
-const newTask = ref('')
+import { useRouter } from "vue-router";
 
-const filter = ref('all')
+import { useTaskStore } from "../store/task";
 
-const tasks = ref([
+const router = useRouter();
 
-  { id: 1, title: 'Beispiel Task', completed: false }
+const taskStore = useTaskStore();
 
-])
+const newTask = ref("");
 
-const router = useRouter()
+const filter = ref("all");
+
+// LOAD
+
+onMounted(() => {
+
+  taskStore.getAllTasks();
+
+});
+
+// LOGOUT (bleibt UI)
 
 const logout = async () => {
 
-  const { error } = await supabase.auth.signOut()
+  await supabase.auth.signOut();
 
-  if (error) {
+  router.push("/login");
 
-    console.error(error.message)
+};
 
-    return
-
-  }
-
-  router.push('/login')
-
-}
-
-/* FILTER */
+// FILTERED TASKS
 
 const filteredTasks = computed(() => {
 
-  if (filter.value === 'done') {
+  if (!taskStore.tasks) return [];
 
-    return tasks.value.filter(t => t.completed)
+  if (filter.value === "done") {
 
-  }
-
-  if (filter.value === 'open') {
-
-    return tasks.value.filter(t => !t.completed)
+    return taskStore.tasks.filter(t => t.completed);
 
   }
 
-  return tasks.value
+  if (filter.value === "open") {
 
-})
+    return taskStore.tasks.filter(t => !t.completed);
 
-/* ADD */
+  }
 
-function handleAddTask() {
+  return taskStore.tasks;
 
-  if (!newTask.value.trim()) return
+});
 
-  tasks.value.push({
+// ADD (POST /tasks)
 
-    id: Date.now(),
+const handleAddTask = () => {
 
-    title: newTask.value,
+  if (!newTask.value.trim()) return;
 
-    completed: false
+  taskStore.addTask(newTask.value);
 
-  })
+  newTask.value = "";
 
-  newTask.value = ''
+};
 
-}
+// EDIT (PUT /tasks/{id})
 
-/* CHANGE */
+const editTask = (task) => {
 
-function toggleTask(task) {
+  const title = prompt("Task bearbeiten:", task.title);
 
-  task.completed = !task.completed
+  if (!title) return;
 
-}
+  taskStore.updateTask(task.id, title);
 
-/* DELETE */
+};
 
-function deleteTask(id) {
+// DELETE
 
-  tasks.value = tasks.value.filter(t => t.id !== id)
+const deleteTask = (id) => {
 
-}
+  taskStore.deleteTask(id);
 
-/* EDIT */
+};
 
-function editTask(task) {
+// TOGGLE (PATCH /complete)
 
-  const newTitle = prompt('Task bearbeiten:', task.title)
+const toggleTask = (task) => {
 
-  if (newTitle) task.title = newTitle
+  taskStore.markAsDone(task.id, !task.completed);
 
-}
+};
 
 </script>
