@@ -94,7 +94,7 @@ const login = async () => {
 
   if (data.session) {
 
-    router.push('/')
+    router.push('/dashboard')
 
   }
 

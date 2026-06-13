@@ -169,6 +169,8 @@ import { useRouter } from "vue-router";
 
 import { useTaskStore } from "../store/task";
 
+import { supabase } from "../lib/supabase";
+
 const router = useRouter();
 
 const taskStore = useTaskStore();
