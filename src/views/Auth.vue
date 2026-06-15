@@ -18,17 +18,24 @@ import { supabase } from '../lib/supabase'
 
 const router = useRouter()
 
-onMounted(() => {
+onMounted(async () => {
 
-  supabase.auth.onAuthStateChange((event, session) => {
 
-    if (event === 'SIGNED_IN' && session) {
+  const { data } = await supabase.auth.getSession()
 
-      router.push('/')
+  if (!data.session) {
 
-    }
+    router.push('/login')
 
-  })
+    return
+
+  }
+
+  setTimeout(() => {
+
+    router.push('/dashboard')
+
+  }, 2000) 
 
 })
 
