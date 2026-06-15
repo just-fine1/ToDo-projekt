@@ -18,23 +18,29 @@ export const useTaskStore = defineStore("tasks", {
 
     async getAllTasks() {
 
-      const { data, error } = await supabase
+      try {
 
-        .from("tasks")
+        const { data, error } = await supabase
 
-        .select("*")
+          .from("tasks")
 
-        .order("id", { ascending: false });
+          .select("*")
 
-      if (error) {
+          .order("id", { ascending: false });
 
-        console.error(error);
+        if (error) {
 
-        return;
+          throw error;
+
+        }
+
+        this.tasks = data;
+
+      } catch (err) {
+
+        console.error("Error loading tasks:", err);
 
       }
-
-      this.tasks = data;
 
     },
 
@@ -42,27 +48,35 @@ export const useTaskStore = defineStore("tasks", {
 
     async getTaskById(id) {
 
-      const { data, error } = await supabase
+      try {
 
-        .from("tasks")
+        const { data, error } = await supabase
 
-        .select("*")
+          .from("tasks")
 
-        .eq("id", id)
+          .select("*")
 
-        .single();
+          .eq("id", id)
 
-      if (error) {
+          .single();
 
-        console.error(error);
+        if (error) {
 
-        return;
+          throw error;
+
+        }
+
+        this.selectedTask = data;
+
+        return data;
+
+      } catch (err) {
+
+        console.error("Error loading task:", err);
+
+        return null;
 
       }
-
-      this.selectedTask = data;
-
-      return data;
 
     },
 
@@ -70,31 +84,37 @@ export const useTaskStore = defineStore("tasks", {
 
     async addTask(title) {
 
-      const { error } = await supabase
+      try {
 
-        .from("tasks")
+        const { error } = await supabase
 
-        .insert([
+          .from("tasks")
 
-          {
+          .insert([
 
-            title,
+            {
 
-            completed: false,
+              title,
 
-          },
+              completed: false,
 
-        ]);
+            },
 
-      if (error) {
+          ]);
 
-        console.error(error);
+        if (error) {
 
-        return;
+          throw error;
+
+        }
+
+        await this.getAllTasks();
+
+      } catch (err) {
+
+        console.error("Error adding task:", err);
 
       }
-
-      await this.getAllTasks();
 
     },
 
@@ -102,23 +122,29 @@ export const useTaskStore = defineStore("tasks", {
 
     async updateTask(id, title) {
 
-      const { error } = await supabase
+      try {
 
-        .from("tasks")
+        const { error } = await supabase
 
-        .update({ title })
+          .from("tasks")
 
-        .eq("id", id);
+          .update({ title })
 
-      if (error) {
+          .eq("id", id);
 
-        console.error(error);
+        if (error) {
 
-        return;
+          throw error;
+
+        }
+
+        await this.getAllTasks();
+
+      } catch (err) {
+
+        console.error("Error updating task:", err);
 
       }
-
-      await this.getAllTasks();
 
     },
 
@@ -126,23 +152,29 @@ export const useTaskStore = defineStore("tasks", {
 
     async markAsDone(id, completed) {
 
-      const { error } = await supabase
+      try {
 
-        .from("tasks")
+        const { error } = await supabase
 
-        .update({ completed })
+          .from("tasks")
 
-        .eq("id", id);
+          .update({ completed })
 
-      if (error) {
+          .eq("id", id);
 
-        console.error(error);
+        if (error) {
 
-        return;
+          throw error;
+
+        }
+
+        await this.getAllTasks();
+
+      } catch (err) {
+
+        console.error("Error updating task status:", err);
 
       }
-
-      await this.getAllTasks();
 
     },
 
@@ -150,23 +182,29 @@ export const useTaskStore = defineStore("tasks", {
 
     async deleteTask(id) {
 
-      const { error } = await supabase
+      try {
 
-        .from("tasks")
+        const { error } = await supabase
 
-        .delete()
+          .from("tasks")
 
-        .eq("id", id);
+          .delete()
 
-      if (error) {
+          .eq("id", id);
 
-        console.error(error);
+        if (error) {
 
-        return;
+          throw error;
+
+        }
+
+        await this.getAllTasks();
+
+      } catch (err) {
+
+        console.error("Error deleting task:", err);
 
       }
-
-      await this.getAllTasks();
 
     },
 

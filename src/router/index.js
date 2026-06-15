@@ -1,32 +1,87 @@
-import AuthView from '../views/AUTH.vue'
-import { createRouter, createWebHistory } from 'vue-router'
-import DashboardView from '../views/Dashboard.vue'
-import SignupView from '../views/Signup.vue'
-import LoginView from '../views/Login.vue'
+import { createRouter, createWebHistory } from "vue-router";
+
+import { supabase } from "../lib/supabase";
+
+import AuthView from "../views/AUTH.vue";
+
+import DashboardView from "../views/Dashboard.vue";
+
+import SignupView from "../views/Signup.vue";
+
+import LoginView from "../views/Login.vue";
 
 const routes = [
-    {
-        path: '/auth',
-        name: 'auth',
-        component: AuthView
-    },
-    {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: DashboardView
-    },
-    {
-        path: '/signup',
-        component: SignupView
-    },
-    { path: '/login',
-    component: LoginView },
-  
-]
+
+  {
+
+    path: "/auth",
+
+    name: "auth",
+
+    component: AuthView,
+
+  },
+
+  {
+
+    path: "/dashboard",
+
+    name: "dashboard",
+
+    component: DashboardView,
+
+    meta: { requiresAuth: true },
+
+  },
+
+  {
+
+    path: "/signup",
+
+    name: "signup",
+
+    component: SignupView,
+
+  },
+
+  {
+
+    path: "/login",
+
+    name: "login",
+
+    component: LoginView,
+
+  },
+
+];
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes
-})
 
-export default router
+  history: createWebHistory(),
+
+  routes,
+
+});
+
+// Route Guard
+
+router.beforeEach(async (to) => {
+
+  const {
+
+    data: { session },
+
+  } = await supabase.auth.getSession();
+
+  if (to.meta.requiresAuth && !session) {
+
+    return "/login";
+
+  }
+
+  return true;
+
+});
+
+export default router;
