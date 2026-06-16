@@ -1,38 +1,84 @@
 <template>
 
-  <div class="login-container">
+  <v-container class="d-flex justify-center align-center fill-height">
 
-    <h1>Login</h1>
+    <v-card class="pa-6" max-width="420" elevation="6" rounded="lg">
 
-    <form @submit.prevent="login">
+      <v-card-title class="text-h5 font-weight-bold justify-center">
 
-      <div>
+        Login
 
-        <label>Email</label>
+      </v-card-title>
 
-        <input v-model="email" type="email" placeholder="Enter email" />
+      <v-card-subtitle class="text-center mb-4">
 
-      </div>
+        Bitte einloggen um fortzufahren
 
-      <div>
+      </v-card-subtitle>
 
-        <label>Password</label>
+      <v-form @submit.prevent="login">
 
-        <input v-model="password" type="password" placeholder="Enter password" />
+        <v-text-field
 
-      </div>
+          v-model="email"
 
-      <p v-if="errorMessage" class="error">
+          label="Email"
 
-        {{ errorMessage }}
+          type="email"
 
-      </p>
+          variant="outlined"
 
-      <button type="submit">Log In</button>
+          prepend-inner-icon="mdi-email"
 
-    </form>
+          class="mb-3"
 
-  </div>
+        />
+
+        <v-text-field
+
+          v-model="password"
+
+          label="Password"
+
+          type="password"
+
+          variant="outlined"
+
+          prepend-inner-icon="mdi-lock"
+
+          class="mb-3"
+
+        />
+
+        <p v-if="errorMessage" class="text-red text-caption mb-2">
+
+          {{ errorMessage }}
+
+        </p>
+
+        <v-btn
+
+          type="submit"
+
+          color="primary"
+
+          block
+
+          size="large"
+
+          class="mt-2"
+
+        >
+
+          Login
+
+        </v-btn>
+
+      </v-form>
+
+    </v-card>
+
+  </v-container>
 
 </template>
 
