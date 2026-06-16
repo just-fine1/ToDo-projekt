@@ -2,53 +2,39 @@
 
   <v-container class="py-6">
 
-    <!-- TITLE -->
+    <!-- HEADER -->
 
-<v-card class="pa-4 mb-4">
+    <v-card class="pa-4 mb-4">
 
-  <v-row align="center" justify="space-between" no-gutters>
+      <v-row justify="space-between" align="center">
 
-    
+        <v-col cols="auto">
 
-    <v-col cols="auto">
+          <h2>TODO LIST</h2>
 
-      <h1>TODO LIST</h1>
+        </v-col>
 
-    </v-col>
+        <v-col cols="auto">
 
-    <v-col cols="auto">
+          <v-btn color="red" variant="flat" @click="logout">
 
-      <v-btn
+            <v-icon start icon="mdi-logout" />
 
-        color="red-darken-2"
+            Logout
 
-        variant="flat"
+          </v-btn>
 
-        class="text-white"
+        </v-col>
 
-        @click="logout"
+      </v-row>
 
-      >
+    </v-card>
 
-        <v-icon start>mdi-logout</v-icon>
-
-        Logout
-
-      </v-btn>
-
-    </v-col>
-
-  </v-row>
-
-</v-card>
-
-    <!-- INPUT + FILTER + BUTTON -->
+    <!-- INPUT -->
 
     <v-row class="mb-4">
 
-      <!-- INPUT -->
-
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="5">
 
         <v-text-field
 
@@ -61,8 +47,6 @@
         />
 
       </v-col>
-
-      <!-- FILTER -->
 
       <v-col cols="12" md="4">
 
@@ -80,11 +64,9 @@
 
       </v-col>
 
-      <!-- BUTTON -->
+      <v-col cols="12" md="3">
 
-      <v-col cols="12" md="4">
-
-        <v-btn color="primary" block @click="handleAddTask">
+        <v-btn block color="primary" @click="handleAddTask">
 
           Add Task
 
@@ -94,9 +76,9 @@
 
     </v-row>
 
-    <!-- LIST WRAPPER -->
+    <!-- LIST -->
 
-    <v-card class="pa-2">
+    <v-card>
 
       <v-list>
 
@@ -108,13 +90,17 @@
 
         >
 
-          <!-- CHECKBOX -->
+        
 
           <template #prepend>
 
             <v-checkbox
 
               :model-value="task.completed"
+
+              color="black"
+
+              hide-details
 
               @change="toggleTask(task)"
 
@@ -126,7 +112,11 @@
 
           <v-list-item-title>
 
-            <span :style="{ textDecoration: task.completed ? 'line-through' : 'none' }">
+            <span :style="{
+
+              textDecoration: task.completed ? 'line-through' : 'none'
+
+            }">
 
               {{ task.title }}
 
@@ -134,19 +124,45 @@
 
           </v-list-item-title>
 
-          <!-- ACTIONS -->
+          
 
           <template #append>
 
-            <v-btn icon @click="editTask(task)">
+            <!-- EDIT -->
 
-              <v-icon>mdi-pencil</v-icon>
+            <v-btn
+
+              variant="flat"
+
+              color="blue"
+
+              class="mr-2"
+
+              @click="editTask(task)"
+
+            >
+
+              <v-icon start icon="mdi-pencil" />
+
+              Edit
 
             </v-btn>
 
-            <v-btn icon color="red" @click="deleteTask(task.id)">
+            <!-- DELETE -->
 
-              <v-icon>mdi-delete</v-icon>
+            <v-btn
+
+              variant="flat"
+
+              color="red"
+
+              @click="deleteTask(task.id)"
+
+            >
+
+              <v-icon start icon="mdi-close" />
+
+              Delete
 
             </v-btn>
 
@@ -161,6 +177,8 @@
   </v-container>
 
 </template>
+
+
 <script setup>
 
 import { ref, computed, onMounted } from "vue";
@@ -187,7 +205,7 @@ onMounted(() => {
 
 });
 
-// LOGOUT (bleibt UI)
+// LOGOUT 
 
 const logout = async () => {
 
@@ -231,7 +249,7 @@ const handleAddTask = () => {
 
 };
 
-// EDIT (PUT /tasks/{id})
+// EDIT 
 
 const editTask = (task) => {
 
@@ -251,7 +269,7 @@ const deleteTask = (id) => {
 
 };
 
-// TOGGLE (PATCH /complete)
+// TOGGLE 
 
 const toggleTask = (task) => {
 
