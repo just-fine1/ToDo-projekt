@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import { supabase } from "../lib/supabase";
 
-import AuthView from "../views/AUTH.vue";
+import AuthView from "../views/Auth.vue";
 
 import DashboardView from "../views/Dashboard.vue";
 
