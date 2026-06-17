@@ -9,26 +9,81 @@ export const useUserStore = defineStore('user', {
   }),
 
   actions: {
-    async fetchUser () {
-      const user = await supabase.auth.user();
-      this.user = user
+
+    // Aktuell angemeldeten Benutzer laden
+
+    async fetchUser() {
+
+      const {
+
+        data: { user },
+
+        error,
+
+      } = await supabase.auth.getUser();
+
+      if (error) {
+
+        throw error;
+
+      }
+
+      this.user = user;
+
     },
-    async signUp (email, password) {
-      const { user, error } = await supabase.auth.signUp({
-        email: email,
-        password: password
+
+    // Registrierung
+
+    async signUp(email, password) {
+
+      const { data, error } = await supabase.auth.signUp({
+
+        email,
+
+        password,
+
       });
-      if (error) throw error;
-      if (user) this.user = user;
+
+      if (error) {
+
+        throw error;
+
+      }
+
+      // Benutzer im Store speichern
+
+      this.user = data.user;
+
     },
-    persist: {
-      enabled: true,
-      strategies: [
-        {
-          key: 'user',
-          storage: localStorage
-        }
-      ]
+
+    // Login
+
+    async signIn(email, password) {
+
+      const { data, error } =
+
+        await supabase.auth.signInWithPassword({
+
+          email,
+
+          password,
+
+        });
+
+      if (error) {
+
+        throw error;
+
+      }
+
+      this.user = data.user;
+
     },
- }
+
+  },
+
+  // Falls du pinia-plugin-persistedstate verwendest
+
+  persist: true,
+
 });

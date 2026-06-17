@@ -84,6 +84,10 @@ import { ref } from 'vue'
 
 import { supabase } from "../lib/supabase"
 
+import { useUserStore } from '../store/user'
+
+const userStore = useUserStore()
+
 const email = ref('')
 
 const password = ref('')
@@ -124,33 +128,25 @@ const register = async () => {
 
   }
 
-  const { error } = await supabase.auth.signUp({
+  try {
 
-    email: email.value,
-
-    password: password.value,
-
-    options: {
-
-      emailRedirectTo:
-
-        `${window.location.origin}/auth/callback`
-
-    }
-
-  })
-
-  if (error) {
-
-    errorMessage.value = error.message
-
-    return
-
-  }
+  await userStore.signUp(email.value, password.value);
 
   successMessage.value =
 
-    'Please check your email and click the confirmation link.'
+    "Please check your email and click the confirmation link.";
+
+  email.value = "";
+
+  password.value = "";
+
+  confirmPassword.value = "";
+
+} catch (error) {
+
+  errorMessage.value = error.message;
+
+}
 
 }
 
