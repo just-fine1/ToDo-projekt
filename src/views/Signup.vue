@@ -1,80 +1,118 @@
 <template>
 
-  <div class="signup-container">
+  <v-container class="d-flex justify-center align-center fill-height">
 
-    <h1>Create Account</h1>
+    <v-card class="pa-6" max-width="420" elevation="6" rounded="lg">
 
-    <form @submit.prevent="register">
+      <v-card-title class="text-h5 font-weight-bold justify-center">
 
-      <div>
+        Create Account
 
-        <label>Email</label>
+      </v-card-title>
 
-        <input
+      <v-card-subtitle class="text-center mb-4">
+
+        Account erstellen
+
+      </v-card-subtitle>
+
+      <v-form @submit.prevent="register">
+
+        <!-- EMAIL -->
+
+        <v-text-field
 
           v-model="email"
 
+          label="Email"
+
           type="email"
 
-          placeholder="Enter email"
+          variant="outlined"
+
+          prepend-inner-icon="mdi-email"
+
+          class="mb-3"
 
         />
 
-      </div>
+        <!-- PASSWORD -->
 
-      <div>
-
-        <label>Password</label>
-
-        <input
+        <v-text-field
 
           v-model="password"
 
+          label="Password"
+
           type="password"
 
-          placeholder="Enter password"
+          variant="outlined"
+
+          prepend-inner-icon="mdi-lock"
+
+          class="mb-3"
 
         />
 
-      </div>
+        <!-- CONFIRM PASSWORD -->
 
-      <div>
-
-        <label>Confirm Password</label>
-
-        <input
+        <v-text-field
 
           v-model="confirmPassword"
 
+          label="Confirm Password"
+
           type="password"
 
-          placeholder="Confirm password"
+          variant="outlined"
+
+          prepend-inner-icon="mdi-lock-check"
+
+          class="mb-3"
 
         />
 
-      </div>
+        <!-- ERROR -->
 
-      <p v-if="errorMessage" class="error">
+        <p v-if="errorMessage" class="text-red text-caption mb-2">
 
-        {{ errorMessage }}
+          {{ errorMessage }}
 
-      </p>
+        </p>
 
-      <p v-if="successMessage" class="success">
+        <!-- SUCCESS -->
 
-        {{ successMessage }}
+        <p v-if="successMessage" class="text-green text-caption mb-2">
 
-      </p>
+          {{ successMessage }}
 
-      <button type="submit">
+        </p>
 
-        Register
+        <!-- BUTTON -->
 
-      </button>
+        <v-btn
 
-    </form>
+          type="submit"
 
-  </div>
+          color="primary"
+
+          block
+
+          size="large"
+
+          class="mt-2"
+
+        >
+
+          Register
+
+        </v-btn>
+
+      </v-form>
+
+    </v-card>
+
+  </v-container>
 
 </template>
 

@@ -195,7 +195,7 @@ onMounted(() => {
 
 });
 
-// LOGOUT (bleibt UI)
+// LOGOUT 
 
 const logout = async () => {
 

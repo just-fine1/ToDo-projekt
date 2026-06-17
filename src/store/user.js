@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
 
   actions: {
 
-    // Aktuell angemeldeten Benutzer laden
+    // Aktuellen USER abrufen
 
     async fetchUser() {
 
@@ -50,7 +50,7 @@ export const useUserStore = defineStore('user', {
 
       }
 
-      // Benutzer im Store speichern
+    
 
       this.user = data.user;
 
@@ -82,7 +82,7 @@ export const useUserStore = defineStore('user', {
 
   },
 
-  // Falls du pinia-plugin-persistedstate verwendest
+ 
 
   persist: true,
 
