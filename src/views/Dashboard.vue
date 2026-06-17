@@ -14,6 +14,8 @@
 
         </v-col>
 
+        <!-- Logout Button -->
+
         <v-col cols="auto">
 
           <v-btn color="red" variant="flat" @click="logout">
@@ -48,6 +50,8 @@
 
       </v-col>
 
+       <!-- Filter -->
+
       <v-col cols="12" md="4">
 
         <v-select
@@ -63,6 +67,8 @@
         />
 
       </v-col>
+
+      <!-- ADD -->
 
       <v-col cols="12" md="3">
 
@@ -82,33 +88,18 @@
 
       <v-list>
 
-        <v-list-item
+        <!-- TOGGLE -->
 
+        <v-list-item
+                
           v-for="task in filteredTasks"
 
           :key="task.id"
+          @click="toggleTask(task)"
 
         >
 
-        
-
-          <template #prepend>
-
-            <v-checkbox
-
-              :model-value="task.completed"
-
-              color="black"
-
-              hide-details
-
-              @change="toggleTask(task)"
-
-            />
-
-          </template>
-
-          <!-- TEXT -->
+          
 
           <v-list-item-title>
 
@@ -124,11 +115,9 @@
 
           </v-list-item-title>
 
-          
+          <!-- Edit -->
 
-          <template #append>
-
-            <!-- EDIT -->
+            <template #append>
 
             <v-btn
 
@@ -146,9 +135,9 @@
 
               Edit
 
-            </v-btn>
+            </v-btn>  
 
-            <!-- DELETE -->
+            <!-- Delete -->
 
             <v-btn
 
@@ -179,6 +168,7 @@
 </template>
 
 
+
 <script setup>
 
 import { ref, computed, onMounted } from "vue";
@@ -205,7 +195,7 @@ onMounted(() => {
 
 });
 
-// LOGOUT 
+// LOGOUT (bleibt UI)
 
 const logout = async () => {
 
@@ -249,7 +239,7 @@ const handleAddTask = () => {
 
 };
 
-// EDIT 
+// EDIT (PUT /tasks/{id})
 
 const editTask = (task) => {
 
@@ -269,7 +259,7 @@ const deleteTask = (id) => {
 
 };
 
-// TOGGLE 
+// TOGGLE (PATCH /complete)
 
 const toggleTask = (task) => {
 
