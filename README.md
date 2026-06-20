@@ -57,11 +57,18 @@ Features include:
 
 ## Task Operations
 
--   **Create:** Insert a new task.
--   **Read:** Load all tasks from Supabase.
--   **Update:** Edit task title.
--   **Complete:** Toggle the `completed` flag.
--   **Delete:** Remove a task.
+* Create:
+    POST /tasks – Create a new task.
+* Read (All Tasks):
+    GET /tasks – Retrieve all tasks.
+* Read (Single Task):
+    GET /tasks/{id} – Retrieve a single task.
+* Update:
+    PUT /tasks/{id} – Update a task.
+* Complete:
+    PATCH /tasks/{id}/complete – Mark a task as completed.
+* Delete:
+    DELETE /tasks/{id} – Delete a task.
 
 ## Authentication
 
