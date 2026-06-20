@@ -95,23 +95,29 @@
           v-for="task in filteredTasks"
 
           :key="task.id"
-          @click="toggleTask(task)"
+          
 
         >
 
           
 
-          <v-list-item-title>
+          <v-list-item-title
 
-            <span :style="{
+          @click="toggleTask(task)"
 
-              textDecoration: task.completed ? 'line-through' : 'none'
+          style="cursor: pointer;"
 
-            }">
+>
 
-              {{ task.title }}
+          <span :style="{
 
-            </span>
+          textDecoration: task.completed ? 'line-through' : 'none'
+
+          }">
+
+          {{ task.title }}
+
+          </span>
 
           </v-list-item-title>
 
